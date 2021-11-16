@@ -1,0 +1,12 @@
+.topImage{
+    height: 600px;
+    width: 700px
+}
+
+
+@media screen and (max-width: 600px) {
+    .topImage{
+        height: 300px;
+        width: 400px
+    }
+  }

@@ -1,25 +1,45 @@
-import logo from './logo.svg';
 import './App.css';
-
+import Topsection from './Components/Topsection';
+import Auth from './Authentication/Auth';
+import {BrowserRouter as Router,Routes,Route, Switch} from 'react-router-dom'
+import React ,{useState} from 'react';
+import {firebaseAuth } from './firebase'
+import Randompeople from './Components/Randompeople';
+import Header from './Components/Header';
+import Savedpeople from './Components/Savedpeople'
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [currentuser , setCurrentuser] = useState(true)
+
+  firebaseAuth.onAuthStateChanged((user)=>{
+    if(user){
+      return setCurrentuser(true);
+    }else{
+      return setCurrentuser(false)
+    }
+  })
+
+  if(currentuser == true){
+    return (
+      <div>
+        <Header />
+        <Router>
+          <Switch>
+          <Route exact path ="/" component = {Topsection}/>
+
+          <Route path ="/randomPeople" component = {Randompeople}/>
+          <Route path ="/selectedPeople" component = {Savedpeople}/>
+
+          </Switch>
+        </Router>
+      </div>
+    );
+  }else{
+    return (
+<div>
+  <Auth />
+</div>
+    );
+  }
 }
 
 export default App;
